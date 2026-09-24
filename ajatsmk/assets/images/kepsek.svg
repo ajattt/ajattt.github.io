@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgKepsek" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="30" fill="url(#bgKepsek)"/>
+  <circle cx="200" cy="150" r="60" fill="#cbd5e1"/>
+  <path d="M100 340 C100 250 140 230 200 230 C260 230 300 250 300 340 Z" fill="#94a3b8"/>
+  <path d="M185 230 L200 280 L215 230 Z" fill="#f59e0b"/>
+  <circle cx="200" cy="140" r="45" fill="#f8fafc"/>
+  <circle cx="185" cy="135" r="5" fill="#0f172a"/>
+  <circle cx="215" cy="135" r="5" fill="#0f172a"/>
+  <path d="M185 160 Q200 175 215 160" stroke="#0f172a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Glasses -->
+  <rect x="175" y="127" width="20" height="15" rx="3" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <rect x="205" y="127" width="20" height="15" rx="3" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <line x1="195" y1="134" x2="205" y2="134" stroke="#2563eb" stroke-width="3"/>
+</svg>

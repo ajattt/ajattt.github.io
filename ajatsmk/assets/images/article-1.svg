@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgCampus" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0284c7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bgCampus)"/>
+  
+  <!-- Campus Building Illustration -->
+  <g transform="translate(250, 90)">
+    <!-- Main Center Tower -->
+    <rect x="90" y="50" width="120" height="180" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2" opacity="0.9"/>
+    <!-- Dome / Top Roof -->
+    <polygon points="150,10 80,50 220,50" fill="#3b82f6" stroke="#67e8f9" stroke-width="2"/>
+    <circle cx="150" cy="35" r="10" fill="#fbbf24"/>
+    
+    <!-- Windows Grid -->
+    <g fill="#67e8f9" opacity="0.85">
+      <rect x="110" y="70" width="20" height="25" rx="3"/>
+      <rect x="140" y="70" width="20" height="25" rx="3"/>
+      <rect x="170" y="70" width="20" height="25" rx="3"/>
+      <rect x="110" y="110" width="20" height="25" rx="3"/>
+      <rect x="140" y="110" width="20" height="25" rx="3"/>
+      <rect x="170" y="110" width="20" height="25" rx="3"/>
+      <rect x="110" y="150" width="20" height="25" rx="3"/>
+      <rect x="140" y="150" width="20" height="25" rx="3"/>
+      <rect x="170" y="150" width="20" height="25" rx="3"/>
+    </g>
+
+    <!-- Left Wing -->
+    <rect x="0" y="90" width="90" height="140" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="2" opacity="0.85"/>
+    <g fill="#93c5fd" opacity="0.7">
+      <rect x="15" y="110" width="22" height="22" rx="2"/>
+      <rect x="50" y="110" width="22" height="22" rx="2"/>
+      <rect x="15" y="145" width="22" height="22" rx="2"/>
+      <rect x="50" y="145" width="22" height="22" rx="2"/>
+      <rect x="15" y="180" width="22" height="22" rx="2"/>
+      <rect x="50" y="180" width="22" height="22" rx="2"/>
+    </g>
+
+    <!-- Right Wing -->
+    <rect x="210" y="90" width="90" height="140" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="2" opacity="0.85"/>
+    <g fill="#93c5fd" opacity="0.7">
+      <rect x="225" y="110" width="22" height="22" rx="2"/>
+      <rect x="260" y="110" width="22" height="22" rx="2"/>
+      <rect x="225" y="145" width="22" height="22" rx="2"/>
+      <rect x="260" y="145" width="22" height="22" rx="2"/>
+      <rect x="225" y="180" width="22" height="22" rx="2"/>
+      <rect x="260" y="180" width="22" height="22" rx="2"/>
+    </g>
+
+    <!-- Ground / Entrance Steps -->
+    <polygon points="120,230 180,230 195,245 105,245" fill="#f8fafc" opacity="0.9"/>
+    <rect x="135" y="195" width="30" height="35" rx="2" fill="#2563eb"/>
+  </g>
+
+  <!-- Decorative Stars & Lights -->
+  <circle cx="160" cy="140" r="4" fill="#fbbf24"/>
+  <circle cx="640" cy="120" r="4" fill="#38bdf8"/>
+  <circle cx="680" cy="180" r="3" fill="#67e8f9"/>
+  <circle cx="120" cy="220" r="3" fill="#93c5fd"/>
+
+  <!-- Typography Banner -->
+  <text x="400" y="385" font-family="'Outfit', sans-serif" font-size="27" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="1">KAMPUS YAYASAN BANGUN NUSA BANGSA</text>
+  <text x="400" y="425" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="600" fill="#7dd3fc" text-anchor="middle">Pusat Pendidikan Vokasi Terpadu &amp; Modern Cibinong</text>
+</svg>

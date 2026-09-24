@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgPPDB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#047857;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bgPPDB)"/>
+  <!-- School & Book Emblem -->
+  <circle cx="400" cy="200" r="70" fill="rgba(255,255,255,0.15)"/>
+  <path d="M400 150 L450 175 L400 200 L350 175 Z" fill="#ffffff"/>
+  <path d="M365 190 L365 220 C365 235 400 250 400 250 C400 250 435 235 435 220 L435 190" fill="none" stroke="#ffffff" stroke-width="4"/>
+  <text x="400" y="360" font-family="'Outfit', sans-serif" font-size="30" font-weight="bold" fill="#ffffff" text-anchor="middle">PPDB 2026 / 2027</text>
+  <text x="400" y="405" font-family="'Plus Jakarta Sans', sans-serif" font-size="18" fill="#a7f3d0" text-anchor="middle">Jalur Prestasi &amp; Beasiswa Penuh SMK BNB</text>
+</svg>
