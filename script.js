@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStarfieldParallax();
   initTypewriter();
   initNavScrollSpy();
+  initBackToTop();
   initCommentsSystem();
   initSpidermanSpotlight();
 });
@@ -387,10 +388,11 @@ function initTypewriter() {
 }
 
 /* =========================================================================
-   4. FLOATING NAVBAR SCROLLSPY & MASCOT TRACKING
+   4. FLOATING NAVBAR SCROLLSPY, MASCOT TRACKING & MOBILE NAV
    ========================================================================= */
 function initNavScrollSpy() {
   const navLinks = document.querySelectorAll('.nav-link');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
   const mascot = document.getElementById('nav-mascot');
   const sections = ['Home', 'About', 'Portofolio', 'Contact'];
 
@@ -405,6 +407,7 @@ function initNavScrollSpy() {
       const height = sec.offsetHeight;
 
       if (scrollPos >= top && scrollPos < top + height) {
+        // Desktop Top Nav Links
         navLinks.forEach((link) => {
           const glow = link.querySelector('.active-glow');
           if (link.dataset.nav === id) {
@@ -412,8 +415,8 @@ function initNavScrollSpy() {
             link.classList.remove('text-white/70');
             if (glow) glow.classList.remove('hidden');
 
-            // Move Mascot to this button
-            if (mascot) {
+            // Move Mascot to this button on desktop
+            if (mascot && link.offsetParent !== null && window.innerWidth >= 640) {
               const linkRect = link.getBoundingClientRect();
               const navRect = link.parentElement.getBoundingClientRect();
               const leftOffset = linkRect.left - navRect.left + (linkRect.width / 2) - 20;
@@ -425,6 +428,15 @@ function initNavScrollSpy() {
             if (glow) glow.classList.add('hidden');
           }
         });
+
+        // Mobile Bottom Nav Links
+        mobileNavLinks.forEach((mLink) => {
+          if (mLink.dataset.nav === id) {
+            mLink.classList.add('active');
+          } else {
+            mLink.classList.remove('active');
+          }
+        });
       }
     });
   }
@@ -432,6 +444,30 @@ function initNavScrollSpy() {
   window.addEventListener('scroll', updateActiveNav, { passive: true });
   setTimeout(updateActiveNav, 300);
 }
+
+/* =========================================================================
+   4B. FLOATING BACK TO TOP BUTTON
+   ========================================================================= */
+function initBackToTop() {
+  const btn = document.getElementById('back-to-top-btn');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 350) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  }, { passive: true });
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+window.scrollToTop = scrollToTop;
 
 /* =========================================================================
    5. PORTFOLIO TABS SWITCHER

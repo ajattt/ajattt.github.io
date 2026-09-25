@@ -323,3 +323,148 @@ header:hover .mascot-sparkle {
   opacity: 0 !important;
 }
 
+/* ================= MOBILE BOTTOM NAVIGATION DOCK ================= */
+.mobile-nav-link {
+  transition: all 0.25s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-link.active {
+  color: #ffffff !important;
+  background: rgba(37, 99, 235, 0.25);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px 1px rgba(37, 99, 235, 0.4);
+}
+
+.mobile-nav-link.active i {
+  color: #60a5fa !important;
+  transform: scale(1.15);
+}
+
+/* ================= BACK TO TOP BUTTON ================= */
+#back-to-top-btn.show {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+}
+
+/* ================= RESPONSIVE ENHANCEMENTS ================= */
+
+/* --- Global overflow prevention --- */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* --- Touch optimization for all interactive elements --- */
+.project-card, .stat-card, .social-btn, .mobile-nav-link, button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* --- Container centering guarantee --- */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* ===== MOBILE: up to 640px ===== */
+@media (max-width: 640px) {
+  .nav-mascot {
+    display: none;
+  }
+
+  /* Hero section mobile centering */
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Ensure all text blocks center on mobile */
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Bento grid: single column on mobile */
+  .grid[class*="lg:grid-cols"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Photo frame sizing for small screens */
+  #spiderman-profile-container {
+    width: 220px !important;
+  }
+
+  /* Project cards grid: single column */
+  .grid[class*="md:grid-cols-2"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Social links in hero - wrap nicely */
+  .social-btn {
+    padding: 0.625rem;
+  }
+
+  /* Footer: extra bottom padding for mobile nav dock */
+  footer {
+    padding-bottom: 6rem !important;
+  }
+
+  /* Modal adjustments */
+  .fixed[class*="inset-0"] > div {
+    margin: 0.75rem;
+    max-height: 90vh;
+  }
+
+  /* Stat cards grid on mobile */
+  .grid[class*="grid-cols-2"][class*="md:grid-cols-4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Contact form & social cards */
+  .grid[class*="md:grid-cols-2"][class*="gap-8"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* ===== SMALL MOBILE: up to 400px ===== */
+@media (max-width: 400px) {
+  /* Tighter padding on very small screens */
+  section {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Smaller heading text */
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  /* Photo frame even smaller */
+  #spiderman-profile-container {
+    width: 200px !important;
+  }
+
+  /* Tab buttons text smaller */
+  .grid[class*="grid-cols-2"][class*="sm:grid-cols-4"] button {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+/* ===== TABLET: 641px to 1024px ===== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  section {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  /* 2-column grids for tablets */
+  .grid[class*="lg:grid-cols-[2.5fr_3fr_2.5fr]"] {
+    grid-template-columns: 1fr !important;
+  }
+}
