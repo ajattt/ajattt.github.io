@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/jpeg" href="ajatnormal.jpeg" />
+  
+  <!-- SEO Tags -->
+  <title>Drajad Wicaksono | Profile & Portofolio</title>
+  <meta name="description" content="Website resmi Drajad Wicaksono - Siswa Kelas XII TKJ di SMK Bangun Nusa Bangsa. Portofolio jaringan komputer, teknologi, dan keahlian digital." />
+  <meta name="keywords" content="Drajad Wicaksono, Ajat, SMK Bangun Nusa Bangsa, TKJ, Profil Drajad Wicaksono, Portofolio TKJ, Jaringan Komputer" />
+  <meta name="author" content="Drajad Wicaksono" />
+
+  <!-- Theme / PWA -->
+  <meta name="theme-color" content="#050510" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Drajad Wicaksono | Profile & Portofolio" />
+  <meta property="og:description" content="Website profil dan portofolio resmi Drajad Wicaksono, Siswa Kelas XII TKJ SMK Bangun Nusa Bangsa." />
+  <meta property="og:image" content="ajatnormal.jpeg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef4ff',
+              100: '#d9e6ff',
+              200: '#bcd3ff',
+              300: '#8eb9fe',
+              400: '#5992fc',
+              500: '#2c67ed',
+              600: '#2051db',
+              700: '#1d40c7',
+              800: '#1e35a1',
+              900: '#1d307f',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- AOS Animation CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-[#020617] text-white font-sans antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden">
+
+  <!-- ================= WELCOME SCREEN LOADER ================= -->
+  <div id="welcome-screen" class="fixed inset-0 z-[99999] flex items-center justify-center bg-[#020617] transition-all duration-1000">
+    <!-- WebGL Lightning Canvas -->
+    <div class="absolute inset-0 z-[1] pointer-events-none">
+      <canvas id="lightning-canvas" class="w-full h-full"></canvas>
+    </div>
+    
+    <!-- Welcome Text Particles & Progress -->
+    <div class="relative z-10 w-full max-w-4xl mx-auto px-4 flex flex-col items-center justify-center">
+      <div class="w-full h-[180px] sm:h-[220px] relative flex justify-center items-center">
+        <canvas id="particle-text-canvas" class="block"></canvas>
+      </div>
+
+      <!-- Loading Bar -->
+      <div class="w-64 sm:w-80 mx-auto flex flex-col items-center gap-4 mt-6">
+        <div class="text-white font-mono text-sm sm:text-base font-bold tracking-widest flex items-center justify-between w-full px-1">
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+            INITIALIZING
+          </span>
+          <span id="loader-percent" class="text-blue-400">0%</span>
+        </div>
+        <div class="w-full h-[4px] bg-white/10 rounded-full overflow-hidden relative">
+          <div id="loader-glow" class="absolute top-0 bottom-0 left-0 bg-blue-400 blur-[3px] w-full" style="transform: translateX(-100%);"></div>
+          <div id="loader-bar" class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 shadow-[0_0_15px_rgba(59,130,246,0.8)]" style="width: 0%;"></div>
+        </div>
+        <button id="skip-loader-btn" class="mt-2 text-xs text-blue-300/60 hover:text-blue-200 transition-colors uppercase tracking-widest">
+          Click to Enter &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= BACKGROUND STARS & NEBULA ================= -->
+  <div class="stars-background fixed inset-0 z-0 overflow-hidden pointer-events-none" id="stars-container">
+    <div id="star-layer-1" class="absolute top-0 left-0 w-full h-[2000px] transition-transform duration-300 ease-out"></div>
+    <div id="star-layer-2" class="absolute top-0 left-0 w-full h-[2000px] transition-transform duration-500 ease-out"></div>
+    <div id="star-layer-3" class="absolute top-0 left-0 w-full h-[2000px] transition-transform duration-700 ease-out"></div>
+    
+    <!-- Shooting Stars -->
+    <div class="shooting-star star-1"></div>
+    <div class="shooting-star star-2"></div>
+    <div class="shooting-star star-3"></div>
+  </div>
+
+  <!-- ================= FLOATING NAVBAR ================= -->
+  <header class="fixed top-3 md:top-5 left-0 right-0 z-[9990] flex justify-center px-4">
+    <nav class="relative flex items-center gap-1.5 sm:gap-2 bg-[#1e293b]/70 border border-white/10 backdrop-blur-xl py-1.5 px-2 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+      
+      <!-- Interactive Anime Mascot -->
+      <div id="nav-mascot" class="nav-mascot absolute -top-11 pointer-events-none transition-all duration-500 ease-out" style="left: 20px;">
+        <div class="relative w-10 h-10">
+          <div class="mascot-body absolute w-9 h-9 bg-white rounded-full left-1/2 -translate-x-1/2 shadow-[0_4px_12px_rgba(0,0,0,0.3)]">
+            <div class="mascot-eye mascot-eye-left"></div>
+            <div class="mascot-eye mascot-eye-right"></div>
+            <div class="mascot-blush mascot-blush-left"></div>
+            <div class="mascot-blush mascot-blush-right"></div>
+            <div class="mascot-mouth"></div>
+            <div class="mascot-sparkle sparkle-1">✨</div>
+            <div class="mascot-sparkle sparkle-2">✨</div>
+          </div>
+          <div class="mascot-tail absolute -bottom-1 left-1/2 w-3.5 h-3.5 -translate-x-1/2 bg-white rotate-45"></div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <a href="#Home" class="nav-link relative text-xs md:text-sm font-semibold px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 text-white active" data-nav="Home">
+        <span class="relative z-10 flex items-center gap-1.5">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          Home
+        </span>
+        <div class="active-glow absolute inset-0 rounded-full -z-10"></div>
+      </a>
+
+      <a href="#About" class="nav-link relative text-xs md:text-sm font-semibold px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 text-white/70 hover:text-white" data-nav="About">
+        <span class="relative z-10 flex items-center gap-1.5">
+          <i data-lucide="user" class="w-3.5 h-3.5"></i>
+          About
+        </span>
+        <div class="active-glow absolute inset-0 rounded-full -z-10 hidden"></div>
+      </a>
+
+      <a href="#Portofolio" class="nav-link relative text-xs md:text-sm font-semibold px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 text-white/70 hover:text-white" data-nav="Portofolio">
+        <span class="relative z-10 flex items-center gap-1.5">
+          <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+          Portfolio
+        </span>
+        <div class="active-glow absolute inset-0 rounded-full -z-10 hidden"></div>
+      </a>
+
+      <a href="#Contact" class="nav-link relative text-xs md:text-sm font-semibold px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 text-white/70 hover:text-white" data-nav="Contact">
+        <span class="relative z-10 flex items-center gap-1.5">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+          Contact
+        </span>
+        <div class="active-glow absolute inset-0 rounded-full -z-10 hidden"></div>
+      </a>
+    </nav>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="relative z-10">
+
+    <!-- ================= 1. HERO SECTION ================= -->
+    <section id="Home" class="min-h-screen relative px-[5%] sm:px-[5%] lg:px-[10%] flex items-center justify-center pt-28 pb-16 lg:pt-20 lg:pb-0">
+      <div class="container mx-auto">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 w-full">
+          
+          <!-- Left Column -->
+          <div class="w-full lg:w-1/2 space-y-6 text-left order-1">
+            
+            <!-- Badges & Greeting -->
+            <div data-aos="fade-up" data-aos-delay="200" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-semibold uppercase tracking-wider text-blue-300 font-mono">TKJ XII • SMK Bangun Nusa Bangsa</span>
+            </div>
+
+            <!-- Big Main Headline -->
+            <div class="space-y-1" data-aos="fade-up" data-aos-delay="400">
+              <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight font-display grad-vi">
+                Turning Ideas
+              </h1>
+              <div class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight text-white font-display">
+                Into Reality
+              </div>
+            </div>
+
+            <!-- Typewriter Animation -->
+            <div class="h-9 flex items-center" data-aos="fade-up" data-aos-delay="600">
+              <span id="typewriter-text" class="text-lg md:text-xl text-blue-200 font-medium tracking-wide"></span>
+              <span class="typewriter-cursor w-[2.5px] h-5 ml-1 rounded-full bg-[#2c67ed]"></span>
+            </div>
+
+            <!-- Bio Description -->
+            <p class="text-base md:text-lg max-w-xl leading-relaxed font-light text-slate-300/90" data-aos="fade-up" data-aos-delay="700">
+              Halo! Saya <span class="text-white font-semibold">Drajad Wicaksono</span>, siswa kelas XII jurusan <span class="text-blue-400 font-medium">Teknik Komputer dan Jaringan (TKJ)</span> di SMK Bangun Nusa Bangsa. Berfokus pada konfigurasi jaringan, infrastruktur server, hardware komputer, dan eksplorasi teknologi digital.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap gap-3.5 pt-2" data-aos="fade-up" data-aos-delay="900">
+              <a href="#Portofolio" class="btn-primary group relative flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm bg-[#2c67ed] text-white hover:bg-[#1d4ed8] hover:shadow-[0_0_30px_rgba(37,99,235,0.45)] hover:scale-[1.03] active:scale-95 transition-all duration-300 font-display">
+                <span>View Projects</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+
+              <a href="#Contact" class="btn-secondary group relative flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm border border-white/15 text-blue-100 bg-white/5 hover:border-blue-400/50 hover:bg-blue-500/10 hover:scale-[1.03] active:scale-95 transition-all duration-300 font-display backdrop-blur-md">
+                <span>Contact Me</span>
+                <i data-lucide="external-link" class="w-4 h-4 group-hover:rotate-45 transition-transform"></i>
+              </a>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex items-center gap-3 pt-3" data-aos="fade-up" data-aos-delay="1100">
+              <span class="text-xs text-blue-400 tracking-widest uppercase mr-1 font-mono">Find me</span>
+              
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-btn group p-2.5 rounded-xl border border-white/10 bg-white/5 hover:border-blue-500/40 hover:bg-blue-500/15 hover:scale-110 transition-all duration-300">
+                <i data-lucide="github" class="w-5 h-5 text-blue-300 group-hover:text-white transition-colors"></i>
+              </a>
+
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-btn group p-2.5 rounded-xl border border-white/10 bg-white/5 hover:border-pink-500/40 hover:bg-pink-500/15 hover:scale-110 transition-all duration-300">
+                <i data-lucide="instagram" class="w-5 h-5 text-blue-300 group-hover:text-pink-300 transition-colors"></i>
+              </a>
+
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-btn group p-2.5 rounded-xl border border-white/10 bg-white/5 hover:border-blue-500/40 hover:bg-blue-500/15 hover:scale-110 transition-all duration-300">
+                <i data-lucide="linkedin" class="w-5 h-5 text-blue-300 group-hover:text-blue-400 transition-colors"></i>
+              </a>
+
+              <button onclick="triggerConfetti()" title="Kirim Apresiasi!" class="social-btn group p-2.5 rounded-xl border border-white/10 bg-white/5 hover:border-yellow-400/40 hover:bg-yellow-400/15 hover:scale-110 transition-all duration-300 text-yellow-300">
+                <i data-lucide="sparkles" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Profile & Music Player Card -->
+          <div class="w-full lg:w-1/2 flex items-center justify-center lg:justify-end order-2" data-aos="fade-left" data-aos-delay="500">
+            <div class="w-full max-w-[460px] space-y-5">
+              
+              <!-- Quick Profile Badge Card -->
+              <div class="relative group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-6 shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_35px_rgba(37,99,235,0.2)] transition-all duration-500">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                
+                <div class="flex items-center gap-4">
+                  <div class="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-blue-500/40 shadow-lg flex-shrink-0">
+                    <img src="ajatnormal.jpeg" alt="Drajad Wicaksono" class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-white font-display">Drajad Wicaksono</h3>
+                    <p class="text-sm text-blue-400 font-medium">Teknik Komputer & Jaringan</p>
+                    <p class="text-xs text-slate-400 flex items-center gap-1.5 mt-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-400"></i>
+                      SMK Bangun Nusa Bangsa
+                    </p>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-white/10 text-xs">
+                  <div class="flex items-center gap-2 text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                    <span>Kelas: <strong>XII TKJ</strong></span>
+                  </div>
+                  <div class="flex items-center gap-2 text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Status: <strong>Aktif Belajar</strong></span>
+                  </div>
+                  <div class="flex items-center gap-2 text-slate-300 col-span-2">
+                    <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                    <span>Hobi: <strong>Badminton 🏸 & Lari 🏃</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Spotify / Daily Rotation Card - Raim Laode -->
+              <div class="group relative w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl transition-all duration-500 hover:border-blue-500/40 hover:shadow-[0_0_35px_rgba(37,99,235,0.18)] bg-white/[0.03]">
+                <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_0%,rgba(37,99,235,0.12)_0%,transparent_70%)]"></div>
+                
+                <div class="relative p-5 pb-2">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h3 class="text-2xl font-bold tracking-tight text-white font-display flex items-center gap-2">
+                        <i data-lucide="music" class="w-5 h-5 text-emerald-400 animate-pulse"></i>
+                        Daily Rotation
+                      </h3>
+                      <p class="text-xs text-slate-400 mt-0.5">Raim Laode (Komang, Lesung Pipi, Suasana Rumah...)</p>
+                    </div>
+                    <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                      RAIM LAODE
+                    </span>
+                  </div>
+                </div>
+
+                <div class="relative p-3 pt-1">
+                  <iframe 
+                    title="Spotify Playlist Raim Laode" 
+                    src="https://open.spotify.com/embed/artist/5LcNPa8f8bRmZqELgoRFkN?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="352" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                    class="rounded-xl border border-white/5 w-full">
+                  </iframe>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. ABOUT SECTION ================= -->
+    <section id="About" class="min-h-screen relative px-[5%] sm:px-[5%] lg:px-[10%] py-24">
+      <div class="container mx-auto">
+        
+        <!-- Section Label -->
+        <div class="text-center mb-14" data-aos="fade-up" data-aos-duration="600">
+          <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.2)]">
+            <i data-lucide="user" class="w-4 h-4 text-blue-400"></i>
+            <h2 class="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200 font-display">About Me</h2>
+          </div>
+        </div>
+
+        <!-- 3-Column Profile Bento Layout -->
+        <div class="w-full mx-auto relative">
+          
+          <!-- Desktop 3-Column Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-[2.5fr_3fr_2.5fr] gap-8 items-center">
+            
+            <!-- Left Info -->
+            <div class="space-y-6 text-left" data-aos="fade-right" data-aos-duration="1000">
+              <div class="space-y-1">
+                <span class="grad-vi text-3xl sm:text-4xl font-bold font-display block">Hi, I'm</span>
+                <span class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white font-display block leading-tight">Drajad</span>
+                <span class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-blue-400 font-display block leading-tight">Wicaksono</span>
+              </div>
+              
+              <p class="text-sm text-slate-300 font-mono bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-lg w-fit">
+                📍 SMK Bangun Nusa Bangsa | XII TKJ
+              </p>
+
+              <div>
+                <button onclick="openResumeModal()" class="group px-6 py-3.5 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2.5 bg-[#2c67ed] hover:bg-[#1d4ed8] text-white hover:shadow-[0_0_25px_rgba(37,99,235,0.4)] font-display text-sm">
+                  <i data-lucide="file-text" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform"></i>
+                  <span>View Resume / CV</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Middle Spotlight Spiderman Photo Frame -->
+            <div class="flex justify-center items-center" data-aos="zoom-in" data-aos-duration="1000">
+              <div class="relative group/spiderman">
+                <!-- Background Ambient Glow -->
+                <div class="absolute -inset-8 bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 rounded-3xl opacity-35 blur-2xl group-hover/spiderman:opacity-65 transition-opacity duration-700"></div>
+                
+                <!-- Rotating Beam Ring Container -->
+                <div class="motiq-beam-box relative p-1 rounded-3xl overflow-hidden bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl">
+                  
+                  <!-- Main Interactive Photo Box -->
+                  <div id="spiderman-profile-container" class="relative w-[280px] sm:w-[320px] md:w-[350px] aspect-[4/5] rounded-2xl overflow-hidden cursor-none select-none">
+                    
+                    <!-- Base Image: ajatnormal.jpeg -->
+                    <img id="base-photo" src="ajatnormal.jpeg" alt="Drajad Wicaksono Normal" class="absolute inset-0 w-full h-full object-cover object-top filter grayscale-[10%] group-hover/spiderman:grayscale-0 transition-all duration-700 pointer-events-none" loading="lazy" />
+
+                    <!-- Idle Layer: ajatspiderman.jpeg (Fades in and out every 2 seconds when cursor is outside) -->
+                    <div id="idle-spiderman-layer" class="spiderman-idle-animate absolute inset-0 pointer-events-none z-10 overflow-hidden transition-opacity duration-300">
+                      <img src="ajatspiderman.jpeg" alt="Drajad Wicaksono Spiderman Mode" class="w-full h-full object-cover object-top" />
+                    </div>
+
+                    <!-- Interactive Cursor Spotlight Mask Layer: ajatspiderman.jpeg (Follows cursor inside photo) -->
+                    <div id="cursor-spiderman-layer" class="absolute inset-0 pointer-events-none z-20 overflow-hidden opacity-0" style="-webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+                      <img src="ajatspiderman.jpeg" alt="Drajad Wicaksono Spiderman Spotlight" class="w-full h-full object-cover object-top" />
+                    </div>
+
+                    <!-- Premium Custom Cursor Spotlight Reticle -->
+                    <div id="spiderman-cursor-dot" class="pointer-events-none absolute z-40 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200 flex flex-col items-center">
+                      <!-- Outer Glowing Neon Reticle Ring -->
+                      <div class="relative w-12 h-12 flex items-center justify-center">
+                        <div class="absolute inset-0 rounded-full border border-cyan-400/60 border-dashed animate-[spin_8s_linear_infinite]"></div>
+                        <div class="absolute inset-1.5 rounded-full border border-blue-400/40"></div>
+                        <!-- Crosshair ticks -->
+                        <div class="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent"></div>
+                        <div class="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-400/80 to-transparent"></div>
+                        <!-- Center Core Glowing Dot -->
+                        <div class="w-3 h-3 rounded-full bg-cyan-300 shadow-[0_0_15px_rgba(6,182,212,1)] animate-pulse"></div>
+                      </div>
+                      <!-- Floating Mode Badge -->
+                      <span class="mt-1 px-2 py-0.5 text-[9px] font-mono font-bold tracking-wider text-cyan-300 bg-slate-950/85 border border-cyan-500/40 rounded-full shadow-[0_0_10px_rgba(0,0,0,0.8)] backdrop-blur-sm whitespace-nowrap">
+                        🕷️ SPIDER-MODE
+                      </span>
+                    </div>
+
+                    <!-- Overlay Gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60 pointer-events-none z-25"></div>
+
+                    <!-- Floating Identity Tag -->
+                    <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-900/80 border border-white/15 backdrop-blur-md flex items-center justify-between z-30 pointer-events-none">
+                      <div>
+                        <p class="text-xs text-blue-400 font-mono font-semibold">Identitas Diri</p>
+                        <p class="text-sm font-bold text-white">Drajad Wicaksono</p>
+                      </div>
+                      <span class="px-2.5 py-1 text-[11px] font-bold rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></span>
+                        XII TKJ
+                      </span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Info & Highlights -->
+            <div class="space-y-6 text-left" data-aos="fade-left" data-aos-duration="1000">
+              <div class="text-base sm:text-lg leading-relaxed text-slate-300">
+                <p>
+                  Sebagai siswa jurusan <strong class="text-white">Teknik Komputer dan Jaringan (TKJ)</strong>, saya memiliki minat mendalam pada instalasi jaringan komputer, konfigurasi router & switch, troubleshooting perangkat keras, serta pengembangan website modern.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-2">
+                <div class="flex items-center gap-2 text-sm font-semibold text-white">
+                  <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                  <span>Hobi & Aktivitas:</span>
+                </div>
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span class="px-3 py-1 text-xs rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/30 flex items-center gap-1.5">
+                    🏸 Badminton (Bulutangkis)
+                  </span>
+                  <span class="px-3 py-1 text-xs rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                    🏃 Lari (Running & Jogging)
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <a href="#Portofolio" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 border border-blue-500/40 text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 font-display text-sm">
+                  <i data-lucide="code" class="w-4 h-4"></i>
+                  <span>Explore Portfolio</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Education & Hobbies Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-16" data-aos="fade-up" data-aos-duration="1000">
+            
+            <!-- Education Card -->
+            <div class="p-6 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-xl hover:border-blue-500/30 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                  <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white font-display">Pendidikan</h3>
+              </div>
+
+              <div class="space-y-4">
+                <!-- SMK -->
+                <div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-300 font-bold font-display">
+                    SMK
+                  </div>
+                  <div>
+                    <h4 class="text-base font-bold text-white">SMK Bangun Nusa Bangsa</h4>
+                    <p class="text-sm text-blue-300 mt-0.5">Teknik Komputer dan Jaringan (TKJ)</p>
+                    <p class="text-xs text-slate-400 mt-1 font-mono">Kelas XII • 2023 – Sekarang</p>
+                  </div>
+                </div>
+
+                <!-- Keahlian Utama -->
+                <div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center flex-shrink-0 text-cyan-300 font-bold font-display">
+                    TKJ
+                  </div>
+                  <div>
+                    <h4 class="text-base font-bold text-white">Fokus Kompetensi Kejuruan</h4>
+                    <p class="text-sm text-slate-300 mt-0.5">Routing & Switching (MikroTik/Cisco), Linux Server, LAN/WLAN Setup, Troubleshooting PC.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hobbies & Passion Card -->
+            <div class="p-6 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-xl hover:border-emerald-500/30 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white font-display">Hobi & Kegemaran</h3>
+              </div>
+
+              <div class="space-y-4">
+                <!-- Badminton -->
+                <div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-2xl">
+                    🏸
+                  </div>
+                  <div>
+                    <h4 class="text-base font-bold text-white">Badminton (Bulutangkis)</h4>
+                    <p class="text-sm text-slate-300 mt-0.5">
+                      Rutin bermain bulutangkis untuk mengasah kelincahan, refleks cepat, koordinasi, dan strategi kerja tim di lapangan.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Lari -->
+                <div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center flex-shrink-0 text-2xl">
+                    🏃
+                  </div>
+                  <div>
+                    <h4 class="text-base font-bold text-white">Lari (Running & Jogging)</h4>
+                    <p class="text-sm text-slate-300 mt-0.5">
+                      Menjaga stamina, daya tahan fisik (endurance), dan disiplin melalui aktivitas lari jarak menengah dan jogging teratur.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 3 Stat Bento Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-12" data-aos="fade-up" data-aos-duration="1000">
+            
+            <!-- Stat 1: Projects -->
+            <a href="#Portofolio" onclick="switchTab(0)" class="stat-card group relative p-6 rounded-2xl bg-[#1e293b]/50 border border-white/10 hover:border-blue-500/40 backdrop-blur-xl transition-all duration-300 hover:scale-105 block">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                  <i data-lucide="boxes" class="w-6 h-6"></i>
+                </div>
+                <span class="text-4xl font-extrabold text-white font-display">6+</span>
+              </div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-white font-display mb-1">Projects & Lab</p>
+              <div class="flex items-center justify-between text-xs text-slate-400">
+                <span>Praktikum & Solusi Jaringan</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </div>
+              <div class="mt-4 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-blue-500 to-transparent transition-all duration-500"></div>
+            </a>
+
+            <!-- Stat 2: Certificates -->
+            <a href="#Portofolio" onclick="switchTab(1)" class="stat-card group relative p-6 rounded-2xl bg-[#1e293b]/50 border border-white/10 hover:border-cyan-500/40 backdrop-blur-xl transition-all duration-300 hover:scale-105 block">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                  <i data-lucide="award" class="w-6 h-6"></i>
+                </div>
+                <span class="text-4xl font-extrabold text-white font-display">4+</span>
+              </div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-white font-display mb-1">Sertifikasi & Nilai</p>
+              <div class="flex items-center justify-between text-xs text-slate-400">
+                <span>Kompetensi TKJ & IT Validated</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </div>
+              <div class="mt-4 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-cyan-500 to-transparent transition-all duration-500"></div>
+            </a>
+
+            <!-- Stat 3: Hobbies & Awards -->
+            <a href="#Portofolio" onclick="switchTab(2)" class="stat-card group relative p-6 rounded-2xl bg-[#1e293b]/50 border border-white/10 hover:border-emerald-500/40 backdrop-blur-xl transition-all duration-300 hover:scale-105 block">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <i data-lucide="trophy" class="w-6 h-6"></i>
+                </div>
+                <span class="text-4xl font-extrabold text-white font-display">100%</span>
+              </div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-white font-display mb-1">Dedikasi & Semangat</p>
+              <div class="flex items-center justify-between text-xs text-slate-400">
+                <span>Olahraga & Belajar Berkelanjutan</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </div>
+              <div class="mt-4 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-emerald-500 to-transparent transition-all duration-500"></div>
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. PORTOFOLIO SECTION ================= -->
+    <section id="Portofolio" class="min-h-screen relative px-[5%] sm:px-[5%] lg:px-[10%] py-24">
+      <div class="container mx-auto">
+        
+        <!-- Section Label -->
+        <div class="text-center mb-10" data-aos="fade-up" data-aos-duration="800">
+          <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.2)]">
+            <i data-lucide="briefcase" class="w-4 h-4 text-blue-400"></i>
+            <h2 class="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200 font-display">Portofolio</h2>
+          </div>
+        </div>
+
+        <!-- 4 Tab Switcher -->
+        <div class="relative flex rounded-2xl mb-8 p-1.5 border border-white/10 bg-blue-600/[0.05] backdrop-blur-xl" data-aos="fade-up" data-aos-delay="200">
+          <button onclick="switchTab(0)" id="tab-btn-0" class="tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-xs md:text-sm font-semibold transition-all duration-300 text-white bg-blue-600/20 border border-blue-500/30 shadow-lg">
+            <i data-lucide="code" class="w-4 h-4"></i>
+            <span>Projects</span>
+          </button>
+          
+          <button onclick="switchTab(1)" id="tab-btn-1" class="tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-xs md:text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-blue-600/10">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>Certificates</span>
+          </button>
+
+          <button onclick="switchTab(2)" id="tab-btn-2" class="tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-xs md:text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-blue-600/10">
+            <i data-lucide="trophy" class="w-4 h-4"></i>
+            <span>Awards & Hobi</span>
+          </button>
+
+          <button onclick="switchTab(3)" id="tab-btn-3" class="tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-xs md:text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white hover:bg-blue-600/10">
+            <i data-lucide="boxes" class="w-4 h-4"></i>
+            <span>Tech Stack</span>
+          </button>
+        </div>
+
+        <!-- TAB CONTENT 0: PROJECTS -->
+        <div id="tab-content-0" class="tab-pane block">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Project 1 -->
+            <div class="project-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+              <div class="relative aspect-[16/9] overflow-hidden bg-slate-800">
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-900/60 to-slate-900 group-hover:scale-105 transition-transform duration-500">
+                  <div class="text-center p-4">
+                    <i data-lucide="network" class="w-12 h-12 text-blue-400 mx-auto mb-2"></i>
+                    <span class="text-xs font-mono text-blue-200">MikroTik RouterOS</span>
+                  </div>
+                </div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-mono bg-blue-500/80 text-white font-bold backdrop-blur-md">Network</span>
+              </div>
+              <div class="p-5 space-y-3">
+                <h3 class="text-lg font-bold text-white font-display group-hover:text-blue-300 transition-colors">Konfigurasi Jaringan & Hotspot MikroTik</h3>
+                <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                  Implementasi manajemen bandwidth (Queue Tree), Dynamic Routing OSPF, Firewall NAT, dan sistem login voucher Hotspot untuk lingkungan sekolah.
+                </p>
+                <div class="pt-3 flex items-center justify-between border-t border-white/10">
+                  <button onclick="openProjectModal('Konfigurasi Jaringan & Hotspot MikroTik', 'Implementasi manajemen bandwidth (Queue Tree), Dynamic Routing OSPF, Firewall NAT, dan sistem login voucher Hotspot untuk lingkungan sekolah SMK Bangun Nusa Bangsa. Menggunakan RouterBOARD RB750Gr3 dan Winbox untuk konfigurasi presisi.', ['MikroTik RouterOS', 'Winbox', 'Firewall NAT', 'Bandwidth Management'])" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold">
+                    <span>Lihat Detail</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <span class="text-[11px] font-mono text-slate-400">Praktikum Lab</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+              <div class="relative aspect-[16/9] overflow-hidden bg-slate-800">
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-900/60 to-slate-900 group-hover:scale-105 transition-transform duration-500">
+                  <div class="text-center p-4">
+                    <i data-lucide="server" class="w-12 h-12 text-indigo-400 mx-auto mb-2"></i>
+                    <span class="text-xs font-mono text-indigo-200">Linux Debian Server</span>
+                  </div>
+                </div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-mono bg-indigo-500/80 text-white font-bold backdrop-blur-md">SysAdmin</span>
+              </div>
+              <div class="p-5 space-y-3">
+                <h3 class="text-lg font-bold text-white font-display group-hover:text-blue-300 transition-colors">Setup Server Linux (Web, DNS, & FTP)</h3>
+                <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                  Instalasi dan deployment server lokal berbasis Debian/Ubuntu dengan Apache2, BIND9 DNS Server, Vsftpd, dan pengamanan SSH port.
+                </p>
+                <div class="pt-3 flex items-center justify-between border-t border-white/10">
+                  <button onclick="openProjectModal('Setup Server Linux (Web, DNS, & FTP)', 'Instalasi dan deployment server lokal berbasis Debian/Ubuntu dengan Apache2 Web Server, BIND9 Domain Name Server, Vsftpd File Transfer Protocol, dan SSH secure remote access.', ['Debian Server', 'Apache2', 'BIND9 DNS', 'Linux CLI'])" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold">
+                    <span>Lihat Detail</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <span class="text-[11px] font-mono text-slate-400">Server Lab</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+              <div class="relative aspect-[16/9] overflow-hidden bg-slate-800">
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-900/60 to-slate-900 group-hover:scale-105 transition-transform duration-500">
+                  <div class="text-center p-4">
+                    <i data-lucide="layout" class="w-12 h-12 text-cyan-400 mx-auto mb-2"></i>
+                    <span class="text-xs font-mono text-cyan-200">Interactive Web Profile</span>
+                  </div>
+                </div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cyan-500/80 text-white font-bold backdrop-blur-md">Web Dev</span>
+              </div>
+              <div class="p-5 space-y-3">
+                <h3 class="text-lg font-bold text-white font-display group-hover:text-blue-300 transition-colors">Website Profile Identitas Diri Modern</h3>
+                <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                  Pembuatan website portofolio interaktif dengan efek partikel WebGL, glassmorphism, sistem komentar lokal real-time, dan desain responsif.
+                </p>
+                <div class="pt-3 flex items-center justify-between border-t border-white/10">
+                  <button onclick="openProjectModal('Website Profile Identitas Diri Modern', 'Website profil identitas diri interaktif berbasis HTML5, Tailwind CSS, JavaScript Vanilla, WebGL Shaders, dan AOS Animation. Dirancang semirip mungkin dengan standar portofolio modern mutakhir.', ['HTML5', 'Tailwind CSS', 'JavaScript', 'WebGL'])" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold">
+                    <span>Lihat Detail</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <span class="text-[11px] font-mono text-slate-400">Live Website</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="project-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+              <div class="relative aspect-[16/9] overflow-hidden bg-slate-800">
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-emerald-900/60 to-slate-900 group-hover:scale-105 transition-transform duration-500">
+                  <div class="text-center p-4">
+                    <i data-lucide="route" class="w-12 h-12 text-emerald-400 mx-auto mb-2"></i>
+                    <span class="text-xs font-mono text-emerald-200">Cisco Packet Tracer</span>
+                  </div>
+                </div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-mono bg-emerald-500/80 text-white font-bold backdrop-blur-md">VLAN & Routing</span>
+              </div>
+              <div class="p-5 space-y-3">
+                <h3 class="text-lg font-bold text-white font-display group-hover:text-blue-300 transition-colors">Topologi Jaringan Enterprise Inter-VLAN</h3>
+                <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                  Simulasi jaringan multi-departemen dengan pembagian VLAN, VTP Server-Client, DHCP Relay, dan Spanning Tree Protocol (STP).
+                </p>
+                <div class="pt-3 flex items-center justify-between border-t border-white/10">
+                  <button onclick="openProjectModal('Topologi Jaringan Enterprise Inter-VLAN', 'Perancangan topologi jaringan skala menengah dengan segmentasi VLAN per divisi, switch layer 3 routing, trunking 802.1Q, dan failover protection.', ['Cisco Packet Tracer', 'VLAN', 'Inter-VLAN', 'STP'])" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold">
+                    <span>Lihat Detail</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <span class="text-[11px] font-mono text-slate-400">Simulasi Cisco</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="project-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-all duration-300" data-aos="fade-up" data-aos-delay="500">
+              <div class="relative aspect-[16/9] overflow-hidden bg-slate-800">
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-900/60 to-slate-900 group-hover:scale-105 transition-transform duration-500">
+                  <div class="text-center p-4">
+                    <i data-lucide="cpu" class="w-12 h-12 text-amber-400 mx-auto mb-2"></i>
+                    <span class="text-xs font-mono text-amber-200">Hardware & PC Assembly</span>
+                  </div>
+                </div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-mono bg-amber-500/80 text-white font-bold backdrop-blur-md">Hardware</span>
+              </div>
+              <div class="p-5 space-y-3">
+                <h3 class="text-lg font-bold text-white font-display group-hover:text-blue-300 transition-colors">Perakitan PC & Troubleshooting Hardware</h3>
+                <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                  Merakit personal computer dari komponen motherboard, CPU, RAM, PSU, kabel manajemen rapi, serta diagnosa POST error beep code.
+                </p>
+                <div class="pt-3 flex items-center justify-between border-t border-white/10">
+                  <button onclick="openProjectModal('Perakitan PC & Troubleshooting Hardware', 'Praktik perakitan PC lab, manajemen kabel airflow, instalasi thermal paste, instalasi BIOS & OS Windows/Linux, serta crimping kabel UTP Cat5e/Cat6 straight-through dan cross-over.', ['PC Assembly', 'Troubleshooting', 'Crimping UTP', 'BIOS Configuration'])" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold">
+                    <span>Lihat Detail</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <span class="text-[11px] font-mono text-slate-400">Workshop TKJ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="project-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-all duration-300" data-aos="fade-up" data-aos-delay="600">
+              <div class="relative aspect-[16/9] overflow-hidden bg-slate-800">
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-rose-900/60 to-slate-900 group-hover:scale-105 transition-transform duration-500">
+                  <div class="text-center p-4">
+                    <i data-lucide="wifi" class="w-12 h-12 text-rose-400 mx-auto mb-2"></i>
+                    <span class="text-xs font-mono text-rose-200">Wireless Access Point</span>
+                  </div>
+                </div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-mono bg-rose-500/80 text-white font-bold backdrop-blur-md">WLAN</span>
+              </div>
+              <div class="p-5 space-y-3">
+                <h3 class="text-lg font-bold text-white font-display group-hover:text-blue-300 transition-colors">Setup Wireless AP & Network Security</h3>
+                <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                  Konfigurasi Access Point, setting SSID tersembunyi, enkripsi WPA3/WPA2-Enterprise, MAC Filtering, dan site survey sinyal Wi-Fi.
+                </p>
+                <div class="pt-3 flex items-center justify-between border-t border-white/10">
+                  <button onclick="openProjectModal('Setup Wireless AP & Network Security', 'Konfigurasi jaringan nirkabel Access Point indoor/outdoor, optimasi channel 2.4GHz dan 5GHz untuk mencegah interferensi frekuensi, serta proteksi keamanan akses jaringan.', ['Wireless AP', 'Wi-Fi Security', 'MAC Filtering', 'WPA3/WPA2'])" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold">
+                    <span>Lihat Detail</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <span class="text-[11px] font-mono text-slate-400">Wireless Lab</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 1: CERTIFICATES -->
+        <div id="tab-content-1" class="tab-pane hidden">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Cert 1 -->
+            <div onclick="openCertModal('Sertifikat Kompetensi Jaringan Komputer', 'SMK Bangun Nusa Bangsa - Uji Kompetensi Keahlian TKJ Tingkat Lanjut')" class="group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-5 cursor-pointer hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+              <div class="aspect-[4/3] rounded-xl bg-gradient-to-br from-blue-950 to-slate-900 border border-white/10 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/15 transition-colors"></div>
+                <i data-lucide="award" class="w-12 h-12 text-blue-400 mb-3 group-hover:scale-110 transition-transform"></i>
+                <h4 class="text-base font-bold text-white font-display">Sertifikat Kompetensi TKJ</h4>
+                <p class="text-xs text-blue-300 mt-1 font-mono">SMK Bangun Nusa Bangsa</p>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs transition-opacity backdrop-blur-sm">
+                  <i data-lucide="maximize-2" class="w-4 h-4 text-blue-400"></i>
+                  <span>View Certificate</span>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-200">Uji Kompetensi Keahlian</span>
+                <span class="text-[11px] font-mono text-blue-400">Grade: Sangat Baik</span>
+              </div>
+            </div>
+
+            <!-- Cert 2 -->
+            <div onclick="openCertModal('Pelatihan Dasar Jaringan MikroTik (MTCNA Prep)', 'Sertifikat Penyelesaian Pelatihan Konfigurasi MikroTik RouterOS')" class="group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-5 cursor-pointer hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+              <div class="aspect-[4/3] rounded-xl bg-gradient-to-br from-indigo-950 to-slate-900 border border-white/10 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-indigo-500/5 group-hover:bg-indigo-500/15 transition-colors"></div>
+                <i data-lucide="shield-check" class="w-12 h-12 text-indigo-400 mb-3 group-hover:scale-110 transition-transform"></i>
+                <h4 class="text-base font-bold text-white font-display">MikroTik RouterOS Dasar</h4>
+                <p class="text-xs text-indigo-300 mt-1 font-mono">Network Academy</p>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs transition-opacity backdrop-blur-sm">
+                  <i data-lucide="maximize-2" class="w-4 h-4 text-indigo-400"></i>
+                  <span>View Certificate</span>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-200">Pelatihan Routing & Firewall</span>
+                <span class="text-[11px] font-mono text-indigo-400">Certified</span>
+              </div>
+            </div>
+
+            <!-- Cert 3 -->
+            <div onclick="openCertModal('Sertifikat Perakitan & Troubleshooting Komputer', 'Pelatihan Teknis Hardware dan Pemeliharaan Sistem Komputer Lab')" class="group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-5 cursor-pointer hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+              <div class="aspect-[4/3] rounded-xl bg-gradient-to-br from-cyan-950 to-slate-900 border border-white/10 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-cyan-500/5 group-hover:bg-cyan-500/15 transition-colors"></div>
+                <i data-lucide="cpu" class="w-12 h-12 text-cyan-400 mb-3 group-hover:scale-110 transition-transform"></i>
+                <h4 class="text-base font-bold text-white font-display">Hardware & PC Maintenance</h4>
+                <p class="text-xs text-cyan-300 mt-1 font-mono">SMK Bangun Nusa Bangsa</p>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs transition-opacity backdrop-blur-sm">
+                  <i data-lucide="maximize-2" class="w-4 h-4 text-cyan-400"></i>
+                  <span>View Certificate</span>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-200">Perakitan & Diagnosa PC</span>
+                <span class="text-[11px] font-mono text-cyan-400">Keahlian Teruji</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 2: AWARDS & HOBBIES -->
+        <div id="tab-content-2" class="tab-pane hidden">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Award 1: Badminton -->
+            <div class="p-6 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl space-y-4 hover:border-emerald-500/40 transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-3xl">
+                🏸
+              </div>
+              <div>
+                <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-semibold">Olahraga & Prestasi</span>
+                <h4 class="text-lg font-bold text-white font-display mt-1">Turnamen Badminton Sekolah</h4>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Aktif bertanding dan mengikuti kejuaraan bulutangkis antar kelas/sekolah dengan fokus pada kategori ganda putra & tunggal.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                <span>Partisipasi Aktif</span>
+                <span class="text-emerald-400 font-mono">Atlet Bulutangkis</span>
+              </div>
+            </div>
+
+            <!-- Award 2: Lari / Running -->
+            <div class="p-6 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl space-y-4 hover:border-yellow-500/40 transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-3xl">
+                🏃
+              </div>
+              <div>
+                <span class="text-xs font-mono text-yellow-400 uppercase tracking-widest font-semibold">Kebugaran Fisik</span>
+                <h4 class="text-lg font-bold text-white font-display mt-1">Finisher Fun Run & Jogging</h4>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Menyelesaikan tantangan lari jarak 5KM/10KM secara konsisten, membangun stamina tinggi, dan menjaga kebugaran jasmani.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                <span>Pace Konsisten</span>
+                <span class="text-yellow-400 font-mono">Finisher 5K/10K</span>
+              </div>
+            </div>
+
+            <!-- Award 3: IT Dedication -->
+            <div class="p-6 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl space-y-4 hover:border-blue-500/40 transition-all duration-300 shadow-xl">
+              <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-3xl">
+                🏆
+              </div>
+              <div>
+                <span class="text-xs font-mono text-blue-400 uppercase tracking-widest font-semibold">Akademik TKJ</span>
+                <h4 class="text-lg font-bold text-white font-display mt-1">Siswa Berprestasi Kelas XII</h4>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Pencapaian nilai praktikum jaringan yang konsisten tinggi di SMK Bangun Nusa Bangsa dalam bidang konfigurasi router & server.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                <span>Nilai Unggul</span>
+                <span class="text-blue-400 font-mono">TKJ Top Rank</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 3: TECH STACK -->
+        <div id="tab-content-3" class="tab-pane hidden">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+            
+            <!-- Tech 1 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="network" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">MikroTik</span>
+            </div>
+
+            <!-- Tech 2 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="router" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Cisco Packet Tracer</span>
+            </div>
+
+            <!-- Tech 3 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="terminal" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Linux Server</span>
+            </div>
+
+            <!-- Tech 4 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="code-2" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">HTML5 & CSS3</span>
+            </div>
+
+            <!-- Tech 5 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="file-code" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">JavaScript</span>
+            </div>
+
+            <!-- Tech 6 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Hardware & PC</span>
+            </div>
+
+            <!-- Tech 7 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="wifi" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Wireless & WLAN</span>
+            </div>
+
+            <!-- Tech 8 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="git-branch" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Git & GitHub</span>
+            </div>
+
+            <!-- Tech 9 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-teal-500/20 flex items-center justify-center text-teal-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="activity" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Wireshark</span>
+            </div>
+
+            <!-- Tech 10 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="figma" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">UI/UX Design</span>
+            </div>
+
+            <!-- Tech 11 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="shield" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">Network Security</span>
+            </div>
+
+            <!-- Tech 12 -->
+            <div class="group p-5 rounded-2xl bg-slate-800/40 hover:bg-slate-700/50 border border-white/5 hover:border-blue-500/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 hover:scale-105 shadow-lg cursor-pointer">
+              <div class="w-12 h-12 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="globe" class="w-6 h-6"></i>
+              </div>
+              <span class="text-slate-300 font-semibold text-xs sm:text-sm group-hover:text-white">DNS & Web Server</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 4. CONTACT & COMMENTS SECTION ================= -->
+    <section id="Contact" class="min-h-screen relative px-[5%] sm:px-[5%] lg:px-[10%] py-24">
+      <div class="container mx-auto">
+        
+        <!-- Section Label -->
+        <div class="text-center mb-14" data-aos="fade-up" data-aos-duration="600">
+          <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.2)]">
+            <i data-lucide="message-square" class="w-4 h-4 text-blue-400"></i>
+            <h2 class="text-sm md:text-base font-bold uppercase tracking-widest text-blue-200 font-display">Hubungi Saya</h2>
+          </div>
+        </div>
+
+        <!-- 2 Column Contact & Comment Box Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-[45%_55%] 2xl:grid-cols-[38%_62%] gap-8">
+          
+          <!-- Column 1: Contact Form & Socials -->
+          <div class="flex flex-col bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl hover:border-blue-500/30 transition-all duration-300" data-aos="fade-right">
+            <div class="mb-6">
+              <h3 class="text-3xl font-bold font-display text-[#2c67ed] mb-1">Kirim Pesan</h3>
+              <p class="text-sm text-slate-300">Ada yang ingin didiskusikan seputar TKJ atau proyek? Kirim pesan langsung di bawah ini!</p>
+            </div>
+
+            <!-- Form -->
+            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-slate-300">Nama Lengkap</label>
+                <div class="relative">
+                  <i data-lucide="user" class="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400"></i>
+                  <input type="text" id="contact-name" name="name" required placeholder="Masukkan nama Anda" class="w-full p-3 pl-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" />
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-slate-300">Alamat Email</label>
+                <div class="relative">
+                  <i data-lucide="mail" class="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400"></i>
+                  <input type="email" id="contact-email" name="email" required placeholder="nama@email.com" class="w-full p-3 pl-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" />
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-slate-300">Isi Pesan</label>
+                <div class="relative">
+                  <i data-lucide="message-circle" class="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400"></i>
+                  <textarea id="contact-message" name="message" required rows="4" placeholder="Tulis pesan atau pertanyaan Anda..." class="w-full p-3 pl-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"></textarea>
+                </div>
+              </div>
+
+              <button type="submit" id="contact-submit-btn" class="w-full py-3.5 rounded-xl font-semibold text-white bg-[#2c67ed] hover:bg-[#1d4ed8] hover:shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all duration-300 font-display flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 text-sm">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span id="contact-btn-text">Kirim Pesan</span>
+              </button>
+            </form>
+
+            <!-- Social Links Cards -->
+            <div class="mt-8 pt-6 border-t border-white/10 space-y-3">
+              <h4 class="text-xs font-bold text-slate-400 tracking-wider uppercase font-mono">FIND ME ON SOCIAL MEDIA</h4>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-pink-500/40 hover:bg-pink-500/10 transition-all group">
+                  <i data-lucide="instagram" class="w-5 h-5 text-pink-400 group-hover:scale-110 transition-transform"></i>
+                  <div class="text-left">
+                    <p class="text-xs font-bold text-white leading-tight">Instagram</p>
+                    <p class="text-[11px] text-slate-400">@drajad.wicaksono</p>
+                  </div>
+                </a>
+
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/40 hover:bg-blue-500/10 transition-all group">
+                  <i data-lucide="github" class="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform"></i>
+                  <div class="text-left">
+                    <p class="text-xs font-bold text-white leading-tight">GitHub</p>
+                    <p class="text-[11px] text-slate-400">@drajad-tkj</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Column 2: Interactive Real-time Comments Box -->
+          <div class="flex flex-col bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl hover:border-blue-500/30 transition-all duration-300" data-aos="fade-left">
+            
+            <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+              <div class="flex items-center gap-3">
+                <div class="p-2 rounded-xl bg-blue-500/15 text-blue-400">
+                  <i data-lucide="message-square" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-white font-display">
+                    Komentar <span id="comments-count" class="text-blue-400">(1)</span>
+                  </h3>
+                  <p class="text-xs text-slate-400">Tinggalkan jejak, kritik, atau saran untuk Drajad</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comment Input Form -->
+            <form id="comment-form" onsubmit="handleCommentSubmit(event)" class="space-y-4 mb-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-slate-300 mb-1">Nama Kamu</label>
+                  <input type="text" id="comment-user-name" required placeholder="Nama lengkap atau panggilan" class="w-full p-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500 transition-all" />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-slate-300 mb-1">Foto Avatar <span class="text-slate-500">(Opsional)</span></label>
+                  <input type="file" id="comment-user-avatar" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-500/20 file:text-blue-300 hover:file:bg-blue-500/30 cursor-pointer" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Isi Komentar</label>
+                <textarea id="comment-content" required rows="3" placeholder="Tulis komentar atau pesan kamu di sini..." class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500 transition-all resize-none"></textarea>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span id="comment-timer-msg" class="text-[11px] text-blue-300 font-mono"></span>
+                <button type="submit" id="comment-submit-btn" class="px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-[#2c67ed] hover:bg-[#1d4ed8] hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all font-display flex items-center gap-1.5 ml-auto">
+                  <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                  <span>Kirim Komentar</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Comments Stream List -->
+            <div class="flex-grow space-y-4 max-h-[360px] overflow-y-auto pr-2 custom-scrollbar" id="comments-list">
+              
+              <!-- Pinned Comment from Admin / Drajad -->
+              <div class="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30 space-y-2">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <img src="ajatnormal.jpeg" alt="Drajad Wicaksono" class="w-8 h-8 rounded-full object-cover border-2 border-blue-400" />
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="text-xs font-bold text-white">Drajad Wicaksono</span>
+                        <span class="px-1.5 py-0.5 text-[10px] rounded bg-blue-500 text-white font-mono font-bold">Admin</span>
+                      </div>
+                      <span class="text-[10px] text-blue-300 font-mono">Pinned Message</span>
+                    </div>
+                  </div>
+                  <span class="text-[10px] text-slate-400 font-mono">Official</span>
+                </div>
+                <p class="text-xs text-slate-200 leading-relaxed pl-10">
+                  Selamat datang di website portofolio resmi saya! Silakan jelajahi proyek TKJ saya atau tinggalkan pesan ramah kalian di kolom komentar ini. Salam hangat dari SMK Bangun Nusa Bangsa! 🚀
+                </p>
+              </div>
+
+              <!-- Dynamic Comments will be injected here -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="relative z-10 border-t border-white/10 bg-[#020617]/80 backdrop-blur-md py-8 text-center px-4">
+    <div class="container mx-auto space-y-2">
+      <p class="text-sm font-semibold text-slate-300">
+        Drajad Wicaksono • Siswa XII TKJ SMK Bangun Nusa Bangsa
+      </p>
+      <p class="text-xs text-slate-500 font-mono">
+        &copy; <span id="current-year">2026</span> Drajad Wicaksono. All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ================= RESUME / CV MODAL ================= -->
+  <div id="resume-modal" class="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="relative w-full max-w-2xl bg-slate-900 border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <button onclick="closeResumeModal()" class="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-6">
+        <div class="flex items-center gap-4">
+          <img src="ajatnormal.jpeg" alt="Drajad Wicaksono" class="w-16 h-16 rounded-2xl object-cover border-2 border-blue-500" />
+          <div>
+            <h3 class="text-2xl font-bold text-white font-display">Drajad Wicaksono</h3>
+            <p class="text-sm text-blue-400 font-medium">Teknik Komputer dan Jaringan (TKJ)</p>
+            <p class="text-xs text-slate-400">SMK Bangun Nusa Bangsa • Kelas XII</p>
+          </div>
+        </div>
+
+        <hr class="border-white/10" />
+
+        <div class="space-y-3">
+          <h4 class="text-base font-bold text-white font-display flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4 text-blue-400"></i>
+            Ringkasan Profil
+          </h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Siswa SMK jurusan TKJ yang berdedikasi tinggi dengan keahlian praktis dalam instalasi, konfigurasi, dan pemeliharaan jaringan komputer (MikroTik RouterOS, Cisco, Access Point), administrasi sistem server Linux Debian/Ubuntu, serta perakitan & troubleshooting hardware PC.
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-base font-bold text-white font-display flex items-center gap-2">
+            <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i>
+            Pendidikan & Sekolah
+          </h4>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+            <li><strong class="text-white">SMK Bangun Nusa Bangsa</strong> (2023 – 2026 / Sekarang) – Jurusan Teknik Komputer dan Jaringan (TKJ), Kelas XII.</li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-base font-bold text-white font-display flex items-center gap-2">
+            <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+            Hobi & Minat
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-white/5 border border-white/10">
+              <strong class="text-emerald-400 block mb-1">🏸 Badminton (Bulutangkis)</strong>
+              <span>Melatih fokus, refleks cepat, kelincahan, dan ketahanan fisik.</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 border border-white/10">
+              <strong class="text-yellow-400 block mb-1">🏃 Lari (Running & Jogging)</strong>
+              <span>Membangun stamina, kedisiplinan diri, dan kebugaran jasmani.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 flex justify-end">
+          <button onclick="closeResumeModal()" class="px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PROJECT / CERTIFICATE DETAIL MODAL ================= -->
+  <div id="detail-modal" class="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <button onclick="closeDetailModal()" class="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-5">
+        <div class="w-12 h-12 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400">
+          <i data-lucide="info" class="w-6 h-6"></i>
+        </div>
+
+        <div>
+          <h3 id="modal-title" class="text-xl font-bold text-white font-display">Detail Proyek</h3>
+          <p id="modal-desc" class="text-xs text-slate-300 mt-2 leading-relaxed">Deskripsi lengkap proyek atau sertifikat.</p>
+        </div>
+
+        <div id="modal-tags-container" class="space-y-2">
+          <span class="text-xs font-semibold text-slate-400">Teknologi / Tools yang Digunakan:</span>
+          <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="pt-4 flex justify-end">
+          <button onclick="closeDetailModal()" class="px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+  <!-- Main JavaScript App -->
+  <script src="script.js"></script>
+</body>
+</html>
