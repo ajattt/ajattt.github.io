@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initStarfieldParallax();
   initTypewriter();
   initNavScrollSpy();
-  initBackToTop();
   initCommentsSystem();
   initSpidermanSpotlight();
+  initFullAudioPlayer();
 });
 
 /* =========================================================================
@@ -388,11 +388,10 @@ function initTypewriter() {
 }
 
 /* =========================================================================
-   4. FLOATING NAVBAR SCROLLSPY, MASCOT TRACKING & MOBILE NAV
+   4. FLOATING NAVBAR SCROLLSPY & MASCOT TRACKING
    ========================================================================= */
 function initNavScrollSpy() {
   const navLinks = document.querySelectorAll('.nav-link');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
   const mascot = document.getElementById('nav-mascot');
   const sections = ['Home', 'About', 'Portofolio', 'Contact'];
 
@@ -407,7 +406,6 @@ function initNavScrollSpy() {
       const height = sec.offsetHeight;
 
       if (scrollPos >= top && scrollPos < top + height) {
-        // Desktop Top Nav Links
         navLinks.forEach((link) => {
           const glow = link.querySelector('.active-glow');
           if (link.dataset.nav === id) {
@@ -415,8 +413,8 @@ function initNavScrollSpy() {
             link.classList.remove('text-white/70');
             if (glow) glow.classList.remove('hidden');
 
-            // Move Mascot to this button on desktop
-            if (mascot && link.offsetParent !== null && window.innerWidth >= 640) {
+            // Move Mascot to this button
+            if (mascot) {
               const linkRect = link.getBoundingClientRect();
               const navRect = link.parentElement.getBoundingClientRect();
               const leftOffset = linkRect.left - navRect.left + (linkRect.width / 2) - 20;
@@ -428,15 +426,6 @@ function initNavScrollSpy() {
             if (glow) glow.classList.add('hidden');
           }
         });
-
-        // Mobile Bottom Nav Links
-        mobileNavLinks.forEach((mLink) => {
-          if (mLink.dataset.nav === id) {
-            mLink.classList.add('active');
-          } else {
-            mLink.classList.remove('active');
-          }
-        });
       }
     });
   }
@@ -444,30 +433,6 @@ function initNavScrollSpy() {
   window.addEventListener('scroll', updateActiveNav, { passive: true });
   setTimeout(updateActiveNav, 300);
 }
-
-/* =========================================================================
-   4B. FLOATING BACK TO TOP BUTTON
-   ========================================================================= */
-function initBackToTop() {
-  const btn = document.getElementById('back-to-top-btn');
-  if (!btn) return;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 350) {
-      btn.classList.add('show');
-    } else {
-      btn.classList.remove('show');
-    }
-  }, { passive: true });
-}
-
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
-window.scrollToTop = scrollToTop;
 
 /* =========================================================================
    5. PORTFOLIO TABS SWITCHER
@@ -879,4 +844,371 @@ function initSpidermanSpotlight() {
 
   container.addEventListener('touchend', onPointerLeave);
 }
+
+/* =========================================================================
+   14. DAILY ROTATION FULL AUDIO PLAYER (RAIM LAODE)
+   ========================================================================= */
+function initFullAudioPlayer() {
+  const playlist = [
+    {
+      title: 'Komang',
+      artist: 'Raim Laode',
+      duration: '3:42',
+      durationSec: 222,
+      cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&auto=format&fit=crop&q=80',
+      youtubeId: 'fKRtnMYMW08'
+    },
+    {
+      title: 'Lesung Pipi',
+      artist: 'Raim Laode',
+      duration: '3:15',
+      durationSec: 195,
+      cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&auto=format&fit=crop&q=80',
+      youtubeId: 'OyQOpcmZtIE'
+    },
+    {
+      title: 'Bersenja Gurau',
+      artist: 'Raim Laode',
+      duration: '3:50',
+      durationSec: 230,
+      cover: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&auto=format&fit=crop&q=80',
+      youtubeId: 'agC1D8LuKwU'
+    },
+    {
+      title: 'Iqro\'',
+      artist: 'Raim Laode',
+      duration: '4:05',
+      durationSec: 245,
+      cover: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=300&auto=format&fit=crop&q=80',
+      youtubeId: 'M7oZR-MTEZs'
+    },
+    {
+      title: 'Dunia Yang Nanti',
+      artist: 'Raim Laode',
+      duration: '3:45',
+      durationSec: 225,
+      cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&auto=format&fit=crop&q=80',
+      youtubeId: 'awWKxGftWh4'
+    },
+    {
+      title: 'Menari Nari',
+      artist: 'Raim Laode',
+      duration: '3:38',
+      durationSec: 218,
+      cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=300&auto=format&fit=crop&q=80',
+      youtubeId: 'uGxaFiHD7PI'
+    },
+    {
+      title: 'Babak Terakhir',
+      artist: 'Raim Laode',
+      duration: '3:52',
+      durationSec: 232,
+      cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&auto=format&fit=crop&q=80',
+      youtubeId: '_jpZ20dqQWQ'
+    }
+  ];
+
+  let currentTrackIdx = 0;
+  let isPlaying = false;
+  let ytPlayer = null;
+  let updateInterval = null;
+  let isMuted = false;
+  let currentVolume = 85;
+
+  const playBtn = document.getElementById('player-play-btn');
+  const prevBtn = document.getElementById('player-prev-btn');
+  const nextBtn = document.getElementById('player-next-btn');
+  const muteBtn = document.getElementById('player-mute-btn');
+  const volumeSlider = document.getElementById('player-volume-slider');
+  const progressContainer = document.getElementById('player-progress-bar-container');
+  const progressBar = document.getElementById('player-progress-bar');
+  const currentTimeEl = document.getElementById('player-current-time');
+  const totalDurationEl = document.getElementById('player-total-duration');
+  const trackArtEl = document.getElementById('player-track-art');
+  const trackTitleEl = document.getElementById('player-track-title');
+  const trackArtistEl = document.getElementById('player-track-artist');
+  const playlistContainer = document.getElementById('player-playlist-list');
+  const equalizerEl = document.getElementById('player-equalizer');
+  const playIcon = document.getElementById('player-play-icon');
+  const volumeIcon = document.getElementById('player-volume-icon');
+
+  if (!playBtn) return;
+
+  // Render Playlist Items
+  function renderPlaylist() {
+    if (!playlistContainer) return;
+    playlistContainer.innerHTML = '';
+    playlist.forEach((track, index) => {
+      const isCurrent = index === currentTrackIdx;
+      const item = document.createElement('div');
+      item.className = `flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all ${
+        isCurrent
+          ? 'bg-emerald-500/15 border border-emerald-500/30 text-white font-medium'
+          : 'hover:bg-white/5 text-slate-300 border border-transparent'
+      }`;
+      item.innerHTML = `
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-6 h-6 rounded flex items-center justify-center text-xs font-mono ${
+            isCurrent ? 'text-emerald-400 font-bold' : 'text-slate-500'
+          }">
+            ${isCurrent && isPlaying ? '<i data-lucide="volume-2" class="w-3.5 h-3.5 animate-pulse text-emerald-400"></i>' : (index + 1)}
+          </div>
+          <div class="min-w-0 truncate">
+            <p class="text-xs font-semibold truncate ${isCurrent ? 'text-emerald-300' : 'text-white'}">${track.title}</p>
+            <p class="text-[10px] text-slate-400 truncate">${track.artist}</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono text-slate-400">${track.duration}</span>
+          ${isCurrent ? '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>' : ''}
+        </div>
+      `;
+      item.addEventListener('click', () => {
+        if (currentTrackIdx === index && isPlaying) {
+          pauseTrack();
+        } else {
+          loadTrack(index, true);
+        }
+      });
+      playlistContainer.appendChild(item);
+    });
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  // Format seconds to mm:ss
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return '0:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+
+  // Update Track Info in UI
+  function updateUI() {
+    const track = playlist[currentTrackIdx];
+    if (trackTitleEl) trackTitleEl.textContent = track.title;
+    if (trackArtistEl) trackArtistEl.textContent = track.artist;
+    if (trackArtEl) trackArtEl.src = track.cover;
+    if (totalDurationEl) totalDurationEl.textContent = track.duration;
+
+    renderPlaylist();
+    updatePlayPauseButton();
+  }
+
+  function updatePlayPauseButton() {
+    if (!playIcon) return;
+    if (isPlaying) {
+      playIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>`;
+      if (equalizerEl) {
+        equalizerEl.classList.remove('opacity-40');
+        equalizerEl.classList.add('opacity-100');
+        Array.from(equalizerEl.children).forEach((bar, i) => {
+          bar.style.animation = `pulse ${0.5 + i * 0.2}s ease-in-out infinite`;
+        });
+      }
+    } else {
+      playIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+      if (equalizerEl) {
+        equalizerEl.classList.add('opacity-40');
+        equalizerEl.classList.remove('opacity-100');
+        Array.from(equalizerEl.children).forEach(bar => {
+          bar.style.animation = 'none';
+        });
+      }
+    }
+  }
+
+  // Load and play track
+  function loadTrack(index, autoPlay = true) {
+    currentTrackIdx = (index + playlist.length) % playlist.length;
+    updateUI();
+
+    if (progressBar) progressBar.style.width = '0%';
+    if (currentTimeEl) currentTimeEl.textContent = '0:00';
+
+    if (ytPlayer && ytPlayer.loadVideoById) {
+      try {
+        if (autoPlay) {
+          ytPlayer.loadVideoById(playlist[currentTrackIdx].youtubeId);
+          isPlaying = true;
+          startTimer();
+        } else {
+          ytPlayer.cueVideoById(playlist[currentTrackIdx].youtubeId);
+          isPlaying = false;
+          stopTimer();
+        }
+      } catch (e) {
+        console.warn('YT player load error:', e);
+      }
+    }
+    updatePlayPauseButton();
+  }
+
+  function playTrack() {
+    isPlaying = true;
+    if (ytPlayer && ytPlayer.playVideo) {
+      ytPlayer.playVideo();
+    }
+    startTimer();
+    updatePlayPauseButton();
+    renderPlaylist();
+  }
+
+  function pauseTrack() {
+    isPlaying = false;
+    if (ytPlayer && ytPlayer.pauseVideo) {
+      ytPlayer.pauseVideo();
+    }
+    stopTimer();
+    updatePlayPauseButton();
+    renderPlaylist();
+  }
+
+  function startTimer() {
+    stopTimer();
+    updateInterval = setInterval(() => {
+      if (ytPlayer && ytPlayer.getCurrentTime && ytPlayer.getDuration) {
+        const curr = ytPlayer.getCurrentTime() || 0;
+        const dur = ytPlayer.getDuration() || playlist[currentTrackIdx].durationSec;
+        if (dur > 0) {
+          const percent = (curr / dur) * 100;
+          if (progressBar) progressBar.style.width = `${Math.min(percent, 100)}%`;
+          if (currentTimeEl) currentTimeEl.textContent = formatTime(curr);
+          if (totalDurationEl && dur > 0) totalDurationEl.textContent = formatTime(dur);
+        }
+      }
+    }, 250);
+  }
+
+  function stopTimer() {
+    if (updateInterval) {
+      clearInterval(updateInterval);
+      updateInterval = null;
+    }
+  }
+
+  // Initialize YouTube Iframe API
+  window.onYouTubeIframeAPIReady = function () {
+    ytPlayer = new YT.Player('yt-player-host', {
+      height: '1',
+      width: '1',
+      videoId: playlist[0].youtubeId,
+      playerVars: {
+        playsinline: 1,
+        controls: 0,
+        disablekb: 1,
+        rel: 0,
+        origin: window.location.origin || 'http://localhost'
+      },
+      events: {
+        onReady: (event) => {
+          if (event.target && event.target.setVolume) {
+            event.target.setVolume(currentVolume);
+          }
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            isPlaying = true;
+            startTimer();
+            updatePlayPauseButton();
+            renderPlaylist();
+          } else if (event.data === YT.PlayerState.PAUSED) {
+            isPlaying = false;
+            stopTimer();
+            updatePlayPauseButton();
+            renderPlaylist();
+          } else if (event.data === YT.PlayerState.ENDED) {
+            loadTrack(currentTrackIdx + 1, true);
+          }
+        }
+      }
+    });
+  };
+
+  // Dynamically inject YouTube API script tag
+  if (!window.YT) {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+
+  // Event Listeners
+  playBtn.addEventListener('click', () => {
+    if (isPlaying) {
+      pauseTrack();
+    } else {
+      playTrack();
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    loadTrack(currentTrackIdx - 1, isPlaying);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    loadTrack(currentTrackIdx + 1, isPlaying);
+  });
+
+  if (progressContainer) {
+    progressContainer.addEventListener('click', (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percent = Math.max(0, Math.min(clickX / rect.width, 1));
+      if (ytPlayer && ytPlayer.getDuration) {
+        const dur = ytPlayer.getDuration() || playlist[currentTrackIdx].durationSec;
+        const targetTime = percent * dur;
+        ytPlayer.seekTo(targetTime, true);
+        if (progressBar) progressBar.style.width = `${percent * 100}%`;
+        if (currentTimeEl) currentTimeEl.textContent = formatTime(targetTime);
+      }
+    });
+  }
+
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', (e) => {
+      currentVolume = parseInt(e.target.value, 10);
+      if (ytPlayer && ytPlayer.setVolume) {
+        ytPlayer.setVolume(currentVolume);
+        if (currentVolume > 0 && isMuted) {
+          isMuted = false;
+          ytPlayer.unMute();
+        }
+      }
+      updateVolumeIcon();
+    });
+  }
+
+  if (muteBtn) {
+    muteBtn.addEventListener('click', () => {
+      if (isMuted) {
+        isMuted = false;
+        if (ytPlayer && ytPlayer.unMute) ytPlayer.unMute();
+        if (volumeSlider) volumeSlider.value = currentVolume;
+      } else {
+        isMuted = true;
+        if (ytPlayer && ytPlayer.mute) ytPlayer.mute();
+        if (volumeSlider) volumeSlider.value = 0;
+      }
+      updateVolumeIcon();
+    });
+  }
+
+  function updateVolumeIcon() {
+    if (!volumeIcon) return;
+    if (isMuted || (volumeSlider && parseInt(volumeSlider.value, 10) === 0)) {
+      volumeIcon.setAttribute('data-lucide', 'volume-x');
+    } else if (volumeSlider && parseInt(volumeSlider.value, 10) < 50) {
+      volumeIcon.setAttribute('data-lucide', 'volume-1');
+    } else {
+      volumeIcon.setAttribute('data-lucide', 'volume-2');
+    }
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  // Initial Render
+  updateUI();
+}
+
 
