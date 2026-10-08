@@ -431,6 +431,7 @@ function initNavScrollSpy() {
   }
 
   window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('resize', updateActiveNav, { passive: true });
   setTimeout(updateActiveNav, 300);
 }
 
@@ -846,7 +847,7 @@ function initSpidermanSpotlight() {
 }
 
 /* =========================================================================
-   14. DAILY ROTATION FULL AUDIO PLAYER (RAIM LAODE)
+   14. DAILY ROTATION FULL AUDIO PLAYER (LOCAL MP3 - RAIM LAODE)
    ========================================================================= */
 function initFullAudioPlayer() {
   const playlist = [
@@ -856,7 +857,7 @@ function initFullAudioPlayer() {
       duration: '3:42',
       durationSec: 222,
       cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&auto=format&fit=crop&q=80',
-      youtubeId: 'fKRtnMYMW08'
+      src: 'music/KOMANG-RAIM LAODE.mp3'
     },
     {
       title: 'Lesung Pipi',
@@ -864,7 +865,7 @@ function initFullAudioPlayer() {
       duration: '3:15',
       durationSec: 195,
       cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&auto=format&fit=crop&q=80',
-      youtubeId: 'OyQOpcmZtIE'
+      src: 'music/LESUNG PIPI-RAIM LAODE.mp3'
     },
     {
       title: 'Bersenja Gurau',
@@ -872,15 +873,15 @@ function initFullAudioPlayer() {
       duration: '3:50',
       durationSec: 230,
       cover: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&auto=format&fit=crop&q=80',
-      youtubeId: 'agC1D8LuKwU'
+      src: 'music/BERSENJA GURAU-RAIM LAODE.mp3'
     },
     {
-      title: 'Iqro\'',
+      title: "Iqro'",
       artist: 'Raim Laode',
       duration: '4:05',
       durationSec: 245,
       cover: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=300&auto=format&fit=crop&q=80',
-      youtubeId: 'M7oZR-MTEZs'
+      src: 'music/IQRO-RAIM LAODE.mp3'
     },
     {
       title: 'Dunia Yang Nanti',
@@ -888,7 +889,7 @@ function initFullAudioPlayer() {
       duration: '3:45',
       durationSec: 225,
       cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&auto=format&fit=crop&q=80',
-      youtubeId: 'awWKxGftWh4'
+      src: 'music/DUNIA YANG NANTI-RAIM LAODE.mp3'
     },
     {
       title: 'Menari Nari',
@@ -896,7 +897,7 @@ function initFullAudioPlayer() {
       duration: '3:38',
       durationSec: 218,
       cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=300&auto=format&fit=crop&q=80',
-      youtubeId: 'uGxaFiHD7PI'
+      src: 'music/MENARI NARI-RAIM LAODE.mp3'
     },
     {
       title: 'Babak Terakhir',
@@ -904,16 +905,23 @@ function initFullAudioPlayer() {
       duration: '3:52',
       durationSec: 232,
       cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&auto=format&fit=crop&q=80',
-      youtubeId: '_jpZ20dqQWQ'
+      src: 'music/BABAK TERAKHIR-RAIM LAODE.mp3'
     }
   ];
 
   let currentTrackIdx = 0;
   let isPlaying = false;
-  let ytPlayer = null;
-  let updateInterval = null;
   let isMuted = false;
-  let currentVolume = 85;
+  let currentVolume = 0.85;
+
+  let audioElement = document.getElementById('main-audio-player');
+  if (!audioElement) {
+    audioElement = new Audio();
+    audioElement.id = 'main-audio-player';
+    audioElement.preload = 'metadata';
+    document.body.appendChild(audioElement);
+  }
+  audioElement.volume = currentVolume;
 
   const playBtn = document.getElementById('player-play-btn');
   const prevBtn = document.getElementById('player-prev-btn');
@@ -943,12 +951,12 @@ function initFullAudioPlayer() {
       const item = document.createElement('div');
       item.className = `flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all ${
         isCurrent
-          ? 'bg-emerald-500/15 border border-emerald-500/30 text-white font-medium'
+          ? 'bg-emerald-500/15 border border-emerald-500/30 text-white font-medium shadow-[0_0_15px_rgba(16,185,129,0.15)]'
           : 'hover:bg-white/5 text-slate-300 border border-transparent'
       }`;
       item.innerHTML = `
         <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-6 h-6 rounded flex items-center justify-center text-xs font-mono ${
+          <div class="w-6 h-6 rounded flex items-center justify-center text-xs font-mono shrink-0 ${
             isCurrent ? 'text-emerald-400 font-bold' : 'text-slate-500'
           }">
             ${isCurrent && isPlaying ? '<i data-lucide="volume-2" class="w-3.5 h-3.5 animate-pulse text-emerald-400"></i>' : (index + 1)}
@@ -958,14 +966,16 @@ function initFullAudioPlayer() {
             <p class="text-[10px] text-slate-400 truncate">${track.artist}</p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono text-slate-400">${track.duration}</span>
+        <div class="flex items-center gap-2 shrink-0 ml-2">
+          <span class="text-[10px] font-mono text-slate-400" id="playlist-track-dur-${index}">${track.duration}</span>
           ${isCurrent ? '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>' : ''}
         </div>
       `;
       item.addEventListener('click', () => {
         if (currentTrackIdx === index && isPlaying) {
           pauseTrack();
+        } else if (currentTrackIdx === index && !isPlaying) {
+          playTrack();
         } else {
           loadTrack(index, true);
         }
@@ -1022,124 +1032,96 @@ function initFullAudioPlayer() {
   // Load and play track
   function loadTrack(index, autoPlay = true) {
     currentTrackIdx = (index + playlist.length) % playlist.length;
+    const track = playlist[currentTrackIdx];
+
+    audioElement.src = encodeURI(track.src);
+    audioElement.load();
+
     updateUI();
 
     if (progressBar) progressBar.style.width = '0%';
     if (currentTimeEl) currentTimeEl.textContent = '0:00';
 
-    if (ytPlayer && ytPlayer.loadVideoById) {
-      try {
-        if (autoPlay) {
-          ytPlayer.loadVideoById(playlist[currentTrackIdx].youtubeId);
-          isPlaying = true;
-          startTimer();
-        } else {
-          ytPlayer.cueVideoById(playlist[currentTrackIdx].youtubeId);
-          isPlaying = false;
-          stopTimer();
-        }
-      } catch (e) {
-        console.warn('YT player load error:', e);
-      }
+    if (autoPlay) {
+      playTrack();
+    } else {
+      isPlaying = false;
+      updatePlayPauseButton();
     }
-    updatePlayPauseButton();
   }
 
   function playTrack() {
-    isPlaying = true;
-    if (ytPlayer && ytPlayer.playVideo) {
-      ytPlayer.playVideo();
+    const playPromise = audioElement.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          isPlaying = true;
+          updatePlayPauseButton();
+          renderPlaylist();
+        })
+        .catch((error) => {
+          console.warn('Playback notice:', error);
+          isPlaying = false;
+          updatePlayPauseButton();
+        });
     }
-    startTimer();
-    updatePlayPauseButton();
-    renderPlaylist();
   }
 
   function pauseTrack() {
+    audioElement.pause();
     isPlaying = false;
-    if (ytPlayer && ytPlayer.pauseVideo) {
-      ytPlayer.pauseVideo();
-    }
-    stopTimer();
     updatePlayPauseButton();
     renderPlaylist();
   }
 
-  function startTimer() {
-    stopTimer();
-    updateInterval = setInterval(() => {
-      if (ytPlayer && ytPlayer.getCurrentTime && ytPlayer.getDuration) {
-        const curr = ytPlayer.getCurrentTime() || 0;
-        const dur = ytPlayer.getDuration() || playlist[currentTrackIdx].durationSec;
-        if (dur > 0) {
-          const percent = (curr / dur) * 100;
-          if (progressBar) progressBar.style.width = `${Math.min(percent, 100)}%`;
-          if (currentTimeEl) currentTimeEl.textContent = formatTime(curr);
-          if (totalDurationEl && dur > 0) totalDurationEl.textContent = formatTime(dur);
-        }
-      }
-    }, 250);
-  }
-
-  function stopTimer() {
-    if (updateInterval) {
-      clearInterval(updateInterval);
-      updateInterval = null;
+  // Audio Event Listeners
+  audioElement.addEventListener('timeupdate', () => {
+    const curr = audioElement.currentTime || 0;
+    const dur = audioElement.duration || playlist[currentTrackIdx].durationSec;
+    if (dur > 0) {
+      const percent = (curr / dur) * 100;
+      if (progressBar) progressBar.style.width = `${Math.min(percent, 100)}%`;
+      if (currentTimeEl) currentTimeEl.textContent = formatTime(curr);
     }
-  }
+  });
 
-  // Initialize YouTube Iframe API
-  window.onYouTubeIframeAPIReady = function () {
-    ytPlayer = new YT.Player('yt-player-host', {
-      height: '1',
-      width: '1',
-      videoId: playlist[0].youtubeId,
-      playerVars: {
-        playsinline: 1,
-        controls: 0,
-        disablekb: 1,
-        rel: 0,
-        origin: window.location.origin || 'http://localhost'
-      },
-      events: {
-        onReady: (event) => {
-          if (event.target && event.target.setVolume) {
-            event.target.setVolume(currentVolume);
-          }
-        },
-        onStateChange: (event) => {
-          if (event.data === YT.PlayerState.PLAYING) {
-            isPlaying = true;
-            startTimer();
-            updatePlayPauseButton();
-            renderPlaylist();
-          } else if (event.data === YT.PlayerState.PAUSED) {
-            isPlaying = false;
-            stopTimer();
-            updatePlayPauseButton();
-            renderPlaylist();
-          } else if (event.data === YT.PlayerState.ENDED) {
-            loadTrack(currentTrackIdx + 1, true);
-          }
-        }
-      }
-    });
-  };
+  audioElement.addEventListener('loadedmetadata', () => {
+    if (audioElement.duration && !isNaN(audioElement.duration) && audioElement.duration > 0) {
+      const durStr = formatTime(audioElement.duration);
+      playlist[currentTrackIdx].duration = durStr;
+      playlist[currentTrackIdx].durationSec = Math.floor(audioElement.duration);
+      if (totalDurationEl) totalDurationEl.textContent = durStr;
+      const listDur = document.getElementById(`playlist-track-dur-${currentTrackIdx}`);
+      if (listDur) listDur.textContent = durStr;
+    }
+  });
 
-  // Dynamically inject YouTube API script tag
-  if (!window.YT) {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  }
+  audioElement.addEventListener('ended', () => {
+    loadTrack(currentTrackIdx + 1, true);
+  });
 
-  // Event Listeners
+  audioElement.addEventListener('play', () => {
+    isPlaying = true;
+    updatePlayPauseButton();
+    renderPlaylist();
+  });
+
+  audioElement.addEventListener('pause', () => {
+    isPlaying = false;
+    updatePlayPauseButton();
+    renderPlaylist();
+  });
+
+  // UI Event Listeners
   playBtn.addEventListener('click', () => {
     if (isPlaying) {
       pauseTrack();
     } else {
-      playTrack();
+      if (!audioElement.src || audioElement.src === '' || audioElement.src === window.location.href) {
+        loadTrack(currentTrackIdx, true);
+      } else {
+        playTrack();
+      }
     }
   });
 
@@ -1151,44 +1133,52 @@ function initFullAudioPlayer() {
     loadTrack(currentTrackIdx + 1, isPlaying);
   });
 
+  // Seek bar event (works with click & touch)
   if (progressContainer) {
-    progressContainer.addEventListener('click', (e) => {
+    const handleSeek = (e) => {
       const rect = progressContainer.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clickX = clientX - rect.left;
       const percent = Math.max(0, Math.min(clickX / rect.width, 1));
-      if (ytPlayer && ytPlayer.getDuration) {
-        const dur = ytPlayer.getDuration() || playlist[currentTrackIdx].durationSec;
-        const targetTime = percent * dur;
-        ytPlayer.seekTo(targetTime, true);
+      const dur = (audioElement.duration && !isNaN(audioElement.duration) && audioElement.duration > 0) 
+        ? audioElement.duration 
+        : playlist[currentTrackIdx].durationSec;
+      if (dur > 0) {
+        audioElement.currentTime = percent * dur;
         if (progressBar) progressBar.style.width = `${percent * 100}%`;
-        if (currentTimeEl) currentTimeEl.textContent = formatTime(targetTime);
+        if (currentTimeEl) currentTimeEl.textContent = formatTime(percent * dur);
       }
-    });
+    };
+
+    progressContainer.addEventListener('click', handleSeek);
   }
 
+  // Volume Slider
   if (volumeSlider) {
+    volumeSlider.value = Math.round(currentVolume * 100);
     volumeSlider.addEventListener('input', (e) => {
-      currentVolume = parseInt(e.target.value, 10);
-      if (ytPlayer && ytPlayer.setVolume) {
-        ytPlayer.setVolume(currentVolume);
-        if (currentVolume > 0 && isMuted) {
-          isMuted = false;
-          ytPlayer.unMute();
-        }
+      const val = parseInt(e.target.value, 10);
+      currentVolume = val / 100;
+      audioElement.volume = currentVolume;
+      if (currentVolume > 0 && isMuted) {
+        isMuted = false;
+        audioElement.muted = false;
       }
       updateVolumeIcon();
     });
   }
 
+  // Mute Button
   if (muteBtn) {
     muteBtn.addEventListener('click', () => {
       if (isMuted) {
         isMuted = false;
-        if (ytPlayer && ytPlayer.unMute) ytPlayer.unMute();
-        if (volumeSlider) volumeSlider.value = currentVolume;
+        audioElement.muted = false;
+        audioElement.volume = currentVolume;
+        if (volumeSlider) volumeSlider.value = Math.round(currentVolume * 100);
       } else {
         isMuted = true;
-        if (ytPlayer && ytPlayer.mute) ytPlayer.mute();
+        audioElement.muted = true;
         if (volumeSlider) volumeSlider.value = 0;
       }
       updateVolumeIcon();
@@ -1207,7 +1197,8 @@ function initFullAudioPlayer() {
     if (window.lucide) window.lucide.createIcons();
   }
 
-  // Initial Render
+  // Initialize first track source without autoplay
+  audioElement.src = encodeURI(playlist[0].src);
   updateUI();
 }
 
